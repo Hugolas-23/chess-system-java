@@ -1,7 +1,10 @@
 package application;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import chess.ChessMatch;
 import chess.ChessPiece;
@@ -51,8 +54,10 @@ public class UI {
 		}
 	}
 	
-	public static void printMatch(ChessMatch chessMatch) {
+	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
 		printBoard(chessMatch.getPieces());
+		System.out.println();
+		printCapturedPieces(captured);
 		System.out.println();
 		System.out.println("Turn: " + chessMatch.getTurn());
 		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
@@ -96,6 +101,26 @@ public class UI {
             }
         }
         System.out.print(" ");
+	}
+	
+	private static void printCapturedPieces(List<ChessPiece> captured) {
+		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
+		//PROGRAMAÇÃO FUNCIONAL E EXPRESSÕES LAMBDA: OPERAÇÃO PARA FILTRAR UMA LISTA.
+		//PARA PEÇAS DE COR BRANCA.
+		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
+		//PARA PEÇAS DE COR PRETA.
+		System.out.println("Captured pieces:");
+		System.out.print("White: ");
+		System.out.print(ANSI_WHITE);
+		System.out.print(Arrays.toString(white.toArray()));
+		//UMA MANEIRA DE IMPRIMIR UM ARRAY DE VALORES
+		System.out.println(ANSI_RESET);
+		
+		System.out.print("Black: ");
+		System.out.print(ANSI_PURPLE);
+		System.out.print(Arrays.toString(black.toArray()));
+		System.out.println(ANSI_RESET);
+		
 	}
 
 }
